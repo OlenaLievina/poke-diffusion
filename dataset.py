@@ -41,9 +41,8 @@ class PokemonDataset(Dataset):
         return processed_image
 
 
-def get_dataloader(root_dir, img_size=64, batch_size=64, num_workers=4):
-    
-    dataset = PokemonDataset(data_dir=root_dir, image_size=img_size)
+def get_dataloader(dataset, batch_size=64, num_workers=4):
+    """Creates a DataLoader for batching and shuffling the dataset"""
 
     dataloader = DataLoader(
         dataset,
@@ -60,7 +59,8 @@ def get_dataloader(root_dir, img_size=64, batch_size=64, num_workers=4):
 if __name__ == '__main__':
       # Check block to verify the complete data pipeline before training
     try:
-        loader = get_dataloader(root_dir='./data/Pokemon Dataset', batch_size=4)
+        dataset = PokemonDataset(data_dir='./data/Pokemon Dataset')
+        loader = get_dataloader(dataset, batch_size=4)
         batch = next(iter(loader))
         print(f'Image batch shape: {batch.shape}')
     except Exception as e:
